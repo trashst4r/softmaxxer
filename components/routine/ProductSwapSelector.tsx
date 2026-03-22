@@ -2,9 +2,9 @@
  * Routine Customization Layer v2
  * Product swap selector using catalog-v1 role-based filtering
  * Sprint 18: Migrated to real product catalog
+ * Sprint 15.2: Fixed width containment overflow
  */
 
-import Image from "next/image";
 import { CATALOG_V1 } from "@/lib/products/catalog-v1";
 import type { RegimenStepRole } from "@/types/regimen";
 import type { ProductRole } from "@/types/product";
@@ -40,7 +40,7 @@ export function ProductSwapSelector({
   const productRole = mapRegimenRoleToProductRole(role);
 
   // For treatment role, include serums, treatments, and support products
-  let availableProducts = CATALOG_V1.filter((p) => {
+  const availableProducts = CATALOG_V1.filter((p) => {
     if (role === "treat") {
       return p.role === "serum" || p.role === "treatment" || p.role === "support";
     }
@@ -59,12 +59,11 @@ export function ProductSwapSelector({
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-full">
       <select
         value={currentProductId}
         onChange={(e) => onSwap(e.target.value)}
-        className="text-xs text-muted bg-transparent border border-outline-variant rounded px-2 py-1 cursor-pointer hover:border-primary/50 transition-colors appearance-none pr-6"
-        style={{ minWidth: "180px" }}
+        className="w-full max-w-full text-xs text-muted bg-transparent border border-outline-variant rounded px-2 py-1 cursor-pointer hover:border-primary/50 transition-colors appearance-none pr-6 truncate"
       >
         {availableProducts.map((product) => {
           return (
