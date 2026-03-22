@@ -1,0 +1,370 @@
+@import "tailwindcss";
+
+/* Design System: Softmaxxer Light Theme v1 */
+/* Sprint 17: Unified light theme - White backgrounds, bone surfaces, muted grey borders, pastel sage accents */
+
+:root {
+  /* Surface Hierarchy - Unified Light Theme */
+  --surface: #ffffff;
+  --surface-container-low: #faf9f6;
+  --surface-container-highest: #e0ddd8;
+  --surface-container-lowest: #ffffff;
+
+  /* Foreground & Text */
+  --on-surface: #2d2d2d;
+  --on-surface-variant: #6b6b6b;
+  --foreground: #2d2d2d;
+  --muted: #6b6b6b;
+
+  /* Primary & Accent - Pastel Sage */
+  --primary: #a8bfa0;
+  --primary-container: #c8d5c0;
+  --on-primary: #ffffff;
+
+  /* Borders & Outlines - Muted Grey */
+  --outline: #b8b5b0;
+  --outline-variant: #e0ddd8;
+
+  /* Semantic Colors */
+  --error: #d14343;
+  --on-error: #ffffff;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
+  --font-headline: var(--font-manrope);
+  --font-body: var(--font-inter);
+  --font-mono: "SF Mono", "Monaco", "Inconsolata", monospace;
+}
+
+/* Dark mode removed - Sprint 17: Light theme only */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-body), "Inter", system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* Premium UI Primitives - No Card Thinking */
+
+/* Tonal Zone (not a "card") */
+.tonal-zone {
+  background: var(--surface-container-low);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+/* Primary Button */
+.clinical-button {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  border-radius: 6px;
+}
+
+.clinical-button:hover {
+  opacity: 0.9;
+}
+
+.clinical-button:active {
+  opacity: 0.95;
+}
+
+/* Secondary/Tertiary Button */
+.clinical-button-secondary {
+  background: transparent;
+  color: var(--on-surface);
+  border: 1px solid var(--outline-variant);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-radius: 6px;
+}
+
+.clinical-button-secondary:hover {
+  border-color: var(--outline);
+  background: var(--surface-container-low);
+}
+
+/* Input Field */
+.clinical-input {
+  background: var(--surface-container-low);
+  border: 1px solid var(--outline-variant);
+  border-radius: 6px;
+  padding: 0.875rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--on-surface);
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.clinical-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--surface-container-lowest);
+}
+
+/* Label (utility text) */
+.clinical-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Form Elements */
+input[type="file"] {
+  font-size: 0.875rem;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Premium Design Utilities */
+
+/* Tonal Separator (no visible line) */
+.tonal-separator {
+  background: var(--surface-container-low);
+  padding: 2rem 0;
+  margin: 2rem 0;
+}
+
+/* Smooth Transition */
+.smooth-transition {
+  transition: all 0.2s ease;
+}
+
+/* Fade In Animation */
+.fade-in,
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sprint D6: Framer Motion handles step transitions and progress dots */
+/* Kept for button hover effects only */
+.choice-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-nav {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+/* Typography Utilities */
+.text-headline {
+  font-family: var(--font-headline);
+}
+
+.text-body {
+  font-family: var(--font-body);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+/* Background Utilities */
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-surface-low {
+  background-color: var(--surface-container-low);
+}
+
+.bg-surface-highest {
+  background-color: var(--surface-container-highest);
+}
+
+.bg-surface-lowest {
+  background-color: var(--surface-container-lowest);
+}
+
+/* Screen Layout */
+.screen-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Print Optimization - Media Kit */
+@media print {
+  /* Force clean white background and black text */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Prevent page breaks within sections */
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 2rem;
+  }
+
+  /* Hide navigation, buttons, and interactive elements */
+  button,
+  [role="button"],
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure links are visible but not interactive */
+  a {
+    text-decoration: none !important;
+    color: black !important;
+  }
+
+  /* Remove unnecessary spacing for print */
+  .py-32 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  .py-24 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  .py-16 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* Ensure high contrast for readability */
+  .text-muted,
+  .text-on-surface-variant {
+    color: #333 !important;
+  }
+
+  .text-on-surface {
+    color: black !important;
+  }
+
+  /* Clean borders for print */
+  .border {
+    border-color: #ccc !important;
+  }
+
+  .border-primary,
+  .border-outline,
+  .border-outline-variant {
+    border-color: #999 !important;
+  }
+
+  /* Keep structure but remove background colors */
+  .bg-primary,
+  .bg-surface-container-low,
+  .bg-surface-container-lowest,
+  .bg-surface-container-highest {
+    background: white !important;
+  }
+
+  /* Ensure grid layouts don't break awkwardly */
+  .grid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Product cards - keep borders visible */
+  .border-primary {
+    border: 2px solid #000 !important;
+  }
+
+  /* Maintain spacing between major elements */
+  h1, h2, h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Prevent orphaned content */
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+}

@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Softmaxxer Icon: Stylized S with skincare droplet -->
+  <rect width="64" height="64" rx="12" fill="#1a1a1a"/>
+  <path d="M32 12C32 12 20 18 20 28C20 35 25 40 32 40C39 40 44 35 44 28C44 18 32 12 32 12Z" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="32" cy="28" r="6" fill="#3b82f6"/>
+  <text x="32" y="56" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#60a5fa" text-anchor="middle">S</text>
+</svg>

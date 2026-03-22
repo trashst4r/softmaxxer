@@ -1,0 +1,19 @@
+# Open Graph Image Placeholder
+
+**Dimensions:** 1200x630px
+**Format:** PNG
+
+## Design Requirements:
+- Background: Dark (#1a1a1a or brand color)
+- Softmaxxer logo/wordmark centered
+- Tagline: "Evidence-Based Skincare Routine Optimization"
+- Clean, minimal design
+- High contrast for social media previews
+
+## Tools:
+- Canva: https://www.canva.com/
+- Figma: https://www.figma.com/
+- Or generate with: https://www.opengraph.xyz/
+
+## Export:
+Save as: /public/og-image.png

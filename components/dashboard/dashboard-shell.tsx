@@ -1,0 +1,226 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useAccessState } from "@/lib/access-state";
+import { recordConsoleVisit, getLatestAnalysis } from "@/lib/console-state";
+import { TierContextBanner } from "@/components/shared/tier-context-banner";
+import type { AnalysisResult } from "@/types/analysis";
+import { CurrentProtocolCard } from "../console/current-protocol-card";
+import { DailyCheckInCard } from "../console/daily-checkin-card";
+import { ProductStackCard } from "../console/product-stack-card";
+import { TrendSnapshotCard } from "../console/trend-snapshot-card";
+import { ProgressChartCard } from "../console/progress-chart-card";
+import { AdherenceSummaryCard } from "../console/adherence-summary-card";
+import { ActiveTargetsCard } from "../console/active-targets-card";
+import { FocusGuidanceCard } from "../console/focus-guidance-card";
+import { ProScanCard } from "@/components/pro/pro-scan-card";
+import { ConsoleIntelligenceCard } from "../console/console-intelligence-card";
+import { ProofLayerCard } from "../console/proof-layer-card";
+
+export function DashboardShell() {
+  const [accessState] = useAccessState();
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+
+  useEffect(() => {
+    // Load analysis from localStorage after mount (hydration-safe pattern)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setResult(getLatestAnalysis());
+
+    // Record console visit for analytics
+    recordConsoleVisit();
+  }, []);
+
+  if (!result) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6">
+        <div className="text-center space-y-6 max-w-md">
+          <div className="space-y-3">
+            <h1 className="text-3xl font-light text-foreground">Dashboard</h1>
+            <div className="h-px w-12 bg-primary/40 mx-auto" />
+          </div>
+          <p className="text-sm text-muted leading-relaxed">
+            Complete your first check-in to access your dashboard.
+          </p>
+          <Link href="/analysis" className="clinical-button inline-block">
+            Begin Check-In
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen px-6 py-8">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Dashboard Header - Compact */}
+        <div className="space-y-3">
+          <div className="flex items-baseline justify-between">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-light text-foreground">Dashboard</h1>
+              <p className="text-xs text-muted">
+                Protocol command center. Today&apos;s routine, progress, and product stack.
+              </p>
+            </div>
+            <Link href="/analysis" className="clinical-button-secondary text-sm">
+              Reassess
+            </Link>
+          </div>
+        </div>
+
+        {/* Tier Context Banner */}
+        <TierContextBanner tier={accessState} context="dashboard" />
+
+        {/* Main Dashboard Grid - Compact Tier-Aware Layout */}
+        <div className="space-y-6">
+          {/* Guest: Minimal Console */}
+          {accessState === "guest" && (
+            <>
+              {/* Sprint 15: Intelligence Layer - TOP PRIORITY */}
+              <ConsoleIntelligenceCard result={result} tier={accessState} />
+
+              {/* Sprint A: Proof Layer */}
+              <ProofLayerCard currentScores={result.scores} tier={accessState} />
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <ActiveTargetsCard result={result} />
+                <CurrentProtocolCard result={result} />
+              </div>
+              <div>
+                <ProductStackCard result={result} accessState={accessState} />
+              </div>
+              {/* Guest Upgrade CTA */}
+              <div className="clinical-card bg-primary/5 border-primary/30">
+                <div className="text-center space-y-4 py-8">
+                  <h3 className="text-xl font-light text-foreground">
+                    Unlock Full Dashboard
+                  </h3>
+                  <p className="text-sm text-muted max-w-2xl mx-auto leading-relaxed">
+                    Get adherence tracking, progress charts, daily check-ins, trend analysis, and complete product intelligence.
+                    Create a free account to access your full regimen management system.
+                  </p>
+                  <button className="clinical-button">
+                    Create Account →
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Member: Complete Console */}
+          {accessState === "member" && (
+            <>
+              {/* Sprint 15: Intelligence Layer - TOP PRIORITY */}
+              <ConsoleIntelligenceCard result={result} tier={accessState} />
+
+              {/* Sprint A: Proof Layer */}
+              <ProofLayerCard currentScores={result.scores} tier={accessState} />
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <ActiveTargetsCard result={result} />
+                <FocusGuidanceCard result={result} />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <CurrentProtocolCard result={result} />
+                <AdherenceSummaryCard />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <ProgressChartCard />
+                <TrendSnapshotCard result={result} />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <DailyCheckInCard />
+                <ProductStackCard result={result} accessState={accessState} />
+              </div>
+              {/* Member Pro Upgrade CTA */}
+              <div className="clinical-card bg-primary/5 border-primary/30">
+                <div className="text-center space-y-4 py-6">
+                  <h3 className="text-lg font-light text-foreground">
+                    Upgrade to Pro Intelligence
+                  </h3>
+                  <p className="text-sm text-muted max-w-2xl mx-auto leading-relaxed">
+                    Add face scan analysis, deep protocol explanations, optimization strategies, and advanced geometric intelligence.
+                  </p>
+                  <button className="clinical-button">
+                    Upgrade to Pro →
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Pro: Deepened Console */}
+          {accessState === "pro" && (
+            <>
+              {/* Sprint 15: Intelligence Layer - TOP PRIORITY with Pro signals */}
+              <ConsoleIntelligenceCard result={result} tier={accessState} />
+
+              {/* Sprint A: Proof Layer */}
+              <ProofLayerCard currentScores={result.scores} tier={accessState} />
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <ActiveTargetsCard result={result} />
+                <FocusGuidanceCard result={result} />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <CurrentProtocolCard result={result} />
+                <AdherenceSummaryCard />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <ProgressChartCard />
+                <TrendSnapshotCard result={result} />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <DailyCheckInCard />
+                <ProductStackCard result={result} accessState={accessState} />
+              </div>
+              {/* Pro Face Scan + Intelligence */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <ProScanCard />
+                <div className="clinical-card space-y-4 bg-primary/5 border-primary/30">
+                  <h2 className="clinical-label">Pro Intelligence Layer</h2>
+                  <div className="text-sm text-muted space-y-3">
+                    <p>
+                      Advanced protocol intelligence combining facial geometry, regimen adherence, and progress metrics.
+                    </p>
+                    <div className="space-y-2 pt-2">
+                      <div className="flex items-start gap-2">
+                        <span className="text-primary">•</span>
+                        <span>Scan-to-protocol optimization</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="text-primary">•</span>
+                        <span>Geometric ratio analysis</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="text-primary">•</span>
+                        <span>Progress prediction modeling</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="text-primary">•</span>
+                        <span>Ingredient interaction insights</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Quick Actions */}
+        <div className="pt-6 border-t border-border flex gap-3">
+          <Link href="/analysis" className="clinical-button-secondary text-sm">
+            Reassess
+          </Link>
+          <Link href="/protocol" className="clinical-button-secondary text-sm">
+            View Protocol
+          </Link>
+          <Link href="/results" className="clinical-button-secondary text-sm">
+            Last Analysis
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
