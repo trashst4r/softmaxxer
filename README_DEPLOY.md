@@ -39,7 +39,7 @@ vercel --prod
 
 1. **Push to GitHub:**
    ```bash
-   git remote add origin https://github.com/yourusername/softmaxxer.git
+   git remote add origin https://github.com/trashst4r/softmaxxer.git
    git push -u origin main
    ```
 
