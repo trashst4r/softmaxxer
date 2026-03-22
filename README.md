@@ -54,7 +54,7 @@ Softmaxxer analyzes your skin's unique needs and builds a customized AM/PM skinc
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/softmaxxer.git
+git clone https://github.com/trashst4r/softmaxxer.git
 cd softmaxxer
 
 # Install dependencies
