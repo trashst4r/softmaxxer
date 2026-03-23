@@ -1,19 +1,16 @@
 /**
  * Sprint D11: Application State
  * Single source of truth for active profile, regimen, and tier
- * Sprint 19: Added refinement preferences storage
+ * Sprint 25: Refinement system fully removed
  */
 
 import type { AnalysisResult } from "@/types/analysis";
 import type { SkinProfile } from "@/types/skin-profile";
-// Sprint 24: Refinement system removed
-type RefinementPreferences = any;
 
 const STORAGE_KEYS = {
   activeProfile: "app_active_profile_v1",
   activeRegimen: "app_active_regimen_v1",
   activeRegimenId: "app_active_regimen_id_v1",
-  refinementPrefs: "app_refinement_prefs_v1",
 } as const;
 
 /**
@@ -103,34 +100,6 @@ export function hasRegimenChanged(currentRegimenId: string): boolean {
 }
 
 /**
- * Get refinement preferences
- */
-export function getRefinementPreferences(): RefinementPreferences | null {
-  if (typeof window === "undefined") return null;
-
-  try {
-    const stored = localStorage.getItem(STORAGE_KEYS.refinementPrefs);
-    return stored ? JSON.parse(stored) : null;
-  } catch (error) {
-    console.error("Failed to load refinement preferences:", error);
-    return null;
-  }
-}
-
-/**
- * Set refinement preferences
- */
-export function setRefinementPreferences(prefs: RefinementPreferences): void {
-  if (typeof window === "undefined") return;
-
-  try {
-    localStorage.setItem(STORAGE_KEYS.refinementPrefs, JSON.stringify(prefs));
-  } catch (error) {
-    console.error("Failed to save refinement preferences:", error);
-  }
-}
-
-/**
  * Clear all active state (for testing/reset)
  */
 export function clearActiveState(): void {
@@ -140,7 +109,6 @@ export function clearActiveState(): void {
     localStorage.removeItem(STORAGE_KEYS.activeProfile);
     localStorage.removeItem(STORAGE_KEYS.activeRegimen);
     localStorage.removeItem(STORAGE_KEYS.activeRegimenId);
-    localStorage.removeItem(STORAGE_KEYS.refinementPrefs);
   } catch (error) {
     console.error("Failed to clear active state:", error);
   }

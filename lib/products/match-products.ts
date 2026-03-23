@@ -1,27 +1,19 @@
 /**
  * Sprint D10: Product Matching Logic (Simplified)
- * Deterministic matching from routine step to product options
+ * Sprint 25: Refinement layer fully removed
  *
- * Sprint D13: Enhanced with refinement layer support
+ * Deterministic matching from routine step to product options
  */
 
 import type { SkinScores } from "@/types/analysis";
 import type { CatalogProduct, StepType } from "./types";
 import { getProductsByStepType } from "./catalog";
 
-// Sprint 24: Refinement system removed
-type RefinementAnswers = any;
-
-// Sprint 24: Local ProductMatch type definition
+// Sprint 25: Refinement system fully removed
 export interface ProductMatch {
   product: CatalogProduct;
   matchReasons: string[];
-  refinementBonus: number;
 }
-
-// Sprint 24: Stub refinement functions
-const calculateRefinementBonus = (...args: any[]) => ({ bonus: 0, reasons: [] });
-const checkAvoidanceFilters = (...args: any[]) => null;
 
 /**
  * Map routine step IDs to product step types
@@ -44,15 +36,14 @@ const STEP_ID_TO_TYPE_MAP: Record<string, StepType> = {
 
 /**
  * Match products for a routine step based on step ID and skin scores
- * Sprint D13: Now supports optional refinement layer
+ * Sprint 25: Simplified - no refinement layer
  *
- * Returns max 3 products, deterministically ordered by skin match + refinement
+ * Returns max 3 products, deterministically ordered by skin match
  */
 export function matchProductsForStep(
   stepId: string,
   stepLabel: string,
-  scores: SkinScores,
-  refinement?: RefinementAnswers | null
+  scores: SkinScores
 ): ProductMatch[] {
   // Determine product step type from routine step ID
   let stepType = STEP_ID_TO_TYPE_MAP[stepId];
@@ -73,66 +64,14 @@ export function matchProductsForStep(
     return [];
   }
 
-  // 1. Rank products based on skin targets match (core scoring)
+  // Rank products based on skin targets match
   const coreRanked = rankProductsBySkinMatch(products, scores);
 
-  // 2. If no refinement, return as ProductMatch with core reasons
-  if (!refinement) {
-    return coreRanked.slice(0, 3).map((product, index) => ({
-      product,
-      coreScore: calculateCoreScore(product, scores, index),
-      refinementBonus: 0,
-      totalScore: calculateCoreScore(product, scores, index),
-      matchReasons: generateCoreMatchReasons(product, scores, index),
-    }));
-  }
-
-  // 3. Apply refinement layer
-  const stepRole = deriveStepRole(stepLabel);
-
-  const withRefinement = coreRanked.map((product, index) => {
-    const coreScore = calculateCoreScore(product, scores, index);
-
-    // Check hard avoidance filters
-    const avoidConflict = checkAvoidanceFilters(product, refinement);
-
-    // Calculate refinement bonus
-    const { bonus, reasons: refinementReasons } = calculateRefinementBonus(product, refinement, stepRole);
-
-    // Combine core and refinement reasons, limit to 3
-    const coreReasons = generateCoreMatchReasons(product, scores, index);
-    const allReasons = [...refinementReasons, ...coreReasons];
-    const matchReasons = allReasons.slice(0, 3);
-
-    return {
-      product,
-      coreScore,
-      refinementBonus: bonus,
-      totalScore: coreScore + bonus,
-      matchReasons,
-      conflictWarnings: avoidConflict ? [avoidConflict] : undefined,
-    };
-  });
-
-  // 4. Filter out hard-avoided products
-  const filtered = withRefinement.filter((m) => !m.conflictWarnings);
-
-  // 5. If all products filtered out, return closest match with warning
-  if (filtered.length === 0 && withRefinement.length > 0) {
-    const closest = withRefinement.sort((a, b) => b.totalScore - a.totalScore)[0];
-    return [
-      {
-        ...closest,
-        matchReasons: [
-          ...closest.matchReasons,
-          "Closest safe match (no products fully match your avoidance preferences)",
-        ],
-      },
-    ];
-  }
-
-  // 6. Sort by total score and return top 3
-  return filtered.sort((a, b) => b.totalScore - a.totalScore).slice(0, 3);
+  // Return top 3 products with match reasons
+  return coreRanked.slice(0, 3).map((product, index) => ({
+    product,
+    matchReasons: generateCoreMatchReasons(product, scores, index),
+  }));
 }
 
 /**
@@ -164,8 +103,7 @@ function calculateCoreScore(product: CatalogProduct, scores: SkinScores, rankInd
 }
 
 /**
- * Generate core match reasons based on skin profile
- * Sprint D14: Show match reasons for defaults even without refinement
+ * Generate match reasons based on skin profile
  */
 function generateCoreMatchReasons(product: CatalogProduct, scores: SkinScores, rankIndex: number): string[] {
   const reasons: string[] = [];
@@ -206,18 +144,6 @@ function generateCoreMatchReasons(product: CatalogProduct, scores: SkinScores, r
 
   // Limit to max 3 reasons
   return reasons.slice(0, 3);
-}
-
-/**
- * Derive step role from step label for refinement scoring
- */
-function deriveStepRole(stepLabel: string): string {
-  const lower = stepLabel.toLowerCase();
-  if (lower.includes("cleans")) return "cleanser";
-  if (lower.includes("moistur") || lower.includes("hydrat")) return "moisturizer";
-  if (lower.includes("treatment") || lower.includes("serum")) return "treatment";
-  if (lower.includes("spf") || lower.includes("sun")) return "spf";
-  return "other";
 }
 
 /**
@@ -312,14 +238,13 @@ function rankProductsBySkinMatch(
 
 /**
  * Get default product for a step (first ranked)
- * Sprint D13: Updated to work with ProductMatch return type
+ * Sprint 25: Simplified signature
  */
 export function getDefaultProductForStep(
   stepId: string,
   stepLabel: string,
-  scores: SkinScores,
-  refinement?: RefinementAnswers | null
+  scores: SkinScores
 ): CatalogProduct | null {
-  const matches = matchProductsForStep(stepId, stepLabel, scores, refinement);
+  const matches = matchProductsForStep(stepId, stepLabel, scores);
   return matches.length > 0 ? matches[0].product : null;
 }

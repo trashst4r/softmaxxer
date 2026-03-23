@@ -152,7 +152,7 @@ function ResultsContent() {
               href="/protocol"
               className="px-6 py-2.5 text-sm font-semibold bg-primary text-on-primary rounded-lg hover:opacity-90 transition-opacity"
             >
-              Customize Routine
+              View Weekly Protocol
             </Link>
           </div>
         </footer>
