@@ -33,14 +33,14 @@ export function TopNav() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             <Link
-              href="/how-it-works"
+              href="/dashboard"
               className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-colors ${
-                isActive("/how-it-works")
+                isActive("/dashboard")
                   ? "text-primary"
                   : "text-muted hover:text-foreground"
               }`}
             >
-              How It Works
+              Dashboard
             </Link>
             <Link
               href="/analysis"
@@ -51,6 +51,26 @@ export function TopNav() {
               }`}
             >
               Check-In
+            </Link>
+            <Link
+              href="/results"
+              className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-colors ${
+                isActive("/results")
+                  ? "text-primary"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              Results
+            </Link>
+            <Link
+              href="/protocol"
+              className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-colors ${
+                isActive("/protocol")
+                  ? "text-primary"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              Protocol
             </Link>
           </div>
 
@@ -91,15 +111,15 @@ export function TopNav() {
         <div className="md:hidden border-t border-outline-variant bg-surface">
           <div className="max-w-7xl mx-auto px-6 py-4 space-y-1">
             <Link
-              href="/how-it-works"
+              href="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
               className={`block px-3 py-2 text-sm font-medium transition-colors ${
-                isActive("/how-it-works")
+                isActive("/dashboard")
                   ? "text-primary"
                   : "text-muted hover:text-foreground"
               }`}
             >
-              How It Works
+              Dashboard
             </Link>
             <Link
               href="/analysis"
@@ -111,6 +131,28 @@ export function TopNav() {
               }`}
             >
               Check-In
+            </Link>
+            <Link
+              href="/results"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block px-3 py-2 text-sm font-medium transition-colors ${
+                isActive("/results")
+                  ? "text-primary"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              Results
+            </Link>
+            <Link
+              href="/protocol"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block px-3 py-2 text-sm font-medium transition-colors ${
+                isActive("/protocol")
+                  ? "text-primary"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              Protocol
             </Link>
           </div>
         </div>
