@@ -207,7 +207,7 @@ function DashboardContent() {
 
           {/* Navigation Links */}
           <div className="flex items-center justify-center gap-3 text-sm text-muted">
-            <Link href="/results" className="hover:text-on-surface transition-colors">
+            <Link href="/protocol" className="hover:text-on-surface transition-colors">
               View Analysis
             </Link>
             <span>·</span>

@@ -38,12 +38,6 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </Link>
-            <Link
-              href="/how-it-works"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-outline-variant text-foreground font-semibold rounded-lg hover:bg-surface-container-low transition-colors text-lg"
-            >
-              How It Works
-            </Link>
           </div>
 
           {/* Trust Badge */}

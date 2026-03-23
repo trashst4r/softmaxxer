@@ -266,7 +266,7 @@ export function DashboardEditorial() {
               Reassess
             </Link>
             <span>·</span>
-            <Link href="/results" className="hover:text-on-surface smooth-transition">
+            <Link href="/protocol" className="hover:text-on-surface smooth-transition">
               Last Analysis
             </Link>
           </div>

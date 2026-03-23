@@ -98,7 +98,7 @@ export function DashboardShell() {
           <Link href="/protocol" className="clinical-button-secondary text-sm">
             View Protocol
           </Link>
-          <Link href="/results" className="clinical-button-secondary text-sm">
+          <Link href="/protocol" className="clinical-button-secondary text-sm">
             Last Analysis
           </Link>
         </div>

@@ -239,7 +239,7 @@ export function DashboardPremium() {
             </Link>
             <span className="text-muted">·</span>
             <Link
-              href="/results"
+              href="/protocol"
               className="text-sm text-muted hover:text-foreground smooth-transition"
             >
               Last Analysis

@@ -19,7 +19,7 @@ export function QuickActions() {
       </Link>
 
       <Link
-        href="/results"
+        href="/protocol"
         className="group flex items-center justify-between p-5 border border-outline-variant/20 rounded-2xl hover:bg-surface-container-high transition-all"
       >
         <div className="flex items-center gap-4">

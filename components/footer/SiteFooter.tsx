@@ -36,16 +36,16 @@ export function SiteFooter() {
             </div>
             <nav className="flex flex-col space-y-2">
               <Link
-                href="/how-it-works"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                How It Works
-              </Link>
-              <Link
                 href="/analysis"
                 className="text-sm text-muted hover:text-foreground transition-colors"
               >
                 Start Check-In
+              </Link>
+              <Link
+                href="/dashboard"
+                className="text-sm text-muted hover:text-foreground transition-colors"
+              >
+                Dashboard
               </Link>
             </nav>
           </div>

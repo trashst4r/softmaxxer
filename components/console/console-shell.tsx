@@ -94,7 +94,7 @@ export function ConsoleShell() {
           <Link href="/analysis" className="clinical-button-secondary">
             Retake Analysis
           </Link>
-          <Link href="/results" className="clinical-button-secondary">
+          <Link href="/protocol" className="clinical-button-secondary">
             View Full Results
           </Link>
         </div>
