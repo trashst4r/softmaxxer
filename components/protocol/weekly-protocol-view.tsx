@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { WeeklyProtocol } from "@/lib/protocol/protocol-types";
 import { motion, AnimatePresence } from "framer-motion";
+import { getIngredientAction, getSearchUrl, getActionCTA } from "@/lib/ingredients/ingredient-actions";
 
 interface WeeklyProtocolViewProps {
   protocol: WeeklyProtocol;
@@ -203,22 +204,50 @@ export function WeeklyProtocolView({ protocol }: WeeklyProtocolViewProps) {
                             </svg>
                             <p className="clinical-label">Morning</p>
                           </div>
-                          <ol className="space-y-2">
-                            {day.am.map((step) => (
-                              <li key={step.order} className="flex items-start gap-3 text-sm">
-                                <span className="font-mono text-xs text-on-surface-variant mt-0.5">
-                                  {step.order}
-                                </span>
-                                <div className="flex-1">
-                                  <p className="text-on-surface font-medium capitalize">
-                                    {step.ingredientFamily.replace(/-/g, " ")}
-                                  </p>
-                                  <p className="text-xs text-on-surface-variant mt-0.5">
-                                    {step.purpose}
-                                  </p>
-                                </div>
-                              </li>
-                            ))}
+                          <ol className="space-y-3">
+                            {day.am.map((step) => {
+                              const action = getIngredientAction(step.ingredientFamily);
+
+                              return (
+                                <li key={step.order} className="flex items-start gap-3 text-sm">
+                                  <span className="font-mono text-xs text-on-surface-variant mt-0.5">
+                                    {step.order}
+                                  </span>
+                                  <div className="flex-1 space-y-2">
+                                    <div>
+                                      <p className="text-on-surface font-medium capitalize">
+                                        {step.ingredientFamily.replace(/-/g, " ")}
+                                      </p>
+                                      <p className="text-xs text-on-surface-variant mt-0.5">
+                                        {step.purpose}
+                                      </p>
+                                    </div>
+
+                                    {/* Sprint 22: Ingredient action bridge */}
+                                    {action && (
+                                      <div className="space-y-1.5">
+                                        {action.guidance && (
+                                          <p className="text-xs text-on-surface-variant leading-relaxed">
+                                            {action.guidance}
+                                          </p>
+                                        )}
+                                        <a
+                                          href={getSearchUrl(action.searchQuery)}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+                                        >
+                                          {getActionCTA(step.ingredientFamily)}
+                                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                          </svg>
+                                        </a>
+                                      </div>
+                                    )}
+                                  </div>
+                                </li>
+                              );
+                            })}
                           </ol>
                         </div>
 
@@ -230,27 +259,55 @@ export function WeeklyProtocolView({ protocol }: WeeklyProtocolViewProps) {
                             </svg>
                             <p className="clinical-label">Evening</p>
                           </div>
-                          <ol className="space-y-2">
-                            {day.pm.map((step) => (
-                              <li key={step.order} className="flex items-start gap-3 text-sm">
-                                <span className="font-mono text-xs text-on-surface-variant mt-0.5">
-                                  {step.order}
-                                </span>
-                                <div className="flex-1">
-                                  <p className="text-on-surface font-medium capitalize">
-                                    {step.ingredientFamily.replace(/-/g, " ")}
-                                  </p>
-                                  <p className="text-xs text-on-surface-variant mt-0.5">
-                                    {step.purpose}
-                                  </p>
-                                  {step.cautionNote && (
-                                    <p className="text-xs text-error mt-1">
-                                      ⚠ {step.cautionNote}
-                                    </p>
-                                  )}
-                                </div>
-                              </li>
-                            ))}
+                          <ol className="space-y-3">
+                            {day.pm.map((step) => {
+                              const action = getIngredientAction(step.ingredientFamily);
+
+                              return (
+                                <li key={step.order} className="flex items-start gap-3 text-sm">
+                                  <span className="font-mono text-xs text-on-surface-variant mt-0.5">
+                                    {step.order}
+                                  </span>
+                                  <div className="flex-1 space-y-2">
+                                    <div>
+                                      <p className="text-on-surface font-medium capitalize">
+                                        {step.ingredientFamily.replace(/-/g, " ")}
+                                      </p>
+                                      <p className="text-xs text-on-surface-variant mt-0.5">
+                                        {step.purpose}
+                                      </p>
+                                      {step.cautionNote && (
+                                        <p className="text-xs text-error mt-1">
+                                          ⚠ {step.cautionNote}
+                                        </p>
+                                      )}
+                                    </div>
+
+                                    {/* Sprint 22: Ingredient action bridge */}
+                                    {action && (
+                                      <div className="space-y-1.5">
+                                        {action.guidance && (
+                                          <p className="text-xs text-on-surface-variant leading-relaxed">
+                                            {action.guidance}
+                                          </p>
+                                        )}
+                                        <a
+                                          href={getSearchUrl(action.searchQuery)}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+                                        >
+                                          {getActionCTA(step.ingredientFamily)}
+                                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                          </svg>
+                                        </a>
+                                      </div>
+                                    )}
+                                  </div>
+                                </li>
+                              );
+                            })}
                           </ol>
                         </div>
 
