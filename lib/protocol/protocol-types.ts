@@ -70,6 +70,11 @@ export interface ProtocolDay {
   am: ProtocolStep[];
   pm: ProtocolStep[];
   rationale: string; // Why this day is structured this way
+  // Sprint 21: Translation layer fields
+  purpose: string; // Short directive: "Exfoliate and renew", "Repair barrier", etc.
+  whyThisDay: string; // User-facing explanation of day logic
+  caution?: string; // Warnings for active days
+  expectedOutcome: string; // What user should notice
 }
 
 /**

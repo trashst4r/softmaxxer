@@ -356,6 +356,11 @@ export function generateWeeklyProtocol(profile: SkinProfile): WeeklyProtocol {
       am,
       pm,
       rationale: getDayRationale(dayType, hero, targets.primaryConcern),
+      // Sprint 21: Human-readable translation
+      purpose: getDayPurpose(dayType, hero, targets.primaryConcern),
+      whyThisDay: getWhyThisDay(dayType, hero, targets.primaryConcern, i, heroFrequency),
+      caution: dayType === "active" ? getDayCaution(hero) : undefined,
+      expectedOutcome: getExpectedOutcome(dayType, hero, targets.primaryConcern),
     });
   }
 
@@ -516,5 +521,108 @@ function buildExpectedTimeline(concern: ProtocolConcern, barrierState: BarrierSt
       return "Texture improvement at 6-8 weeks. Fine line softening at 12+ weeks. Preventative benefits accumulate over months.";
     default:
       return "6-8 weeks for initial changes. 12+ weeks for sustained improvement.";
+  }
+}
+
+/**
+ * Sprint 21: Get clear day purpose (directive style)
+ */
+function getDayPurpose(
+  dayType: DayType,
+  heroActive: IngredientFamily,
+  concern: ProtocolConcern
+): string {
+  switch (dayType) {
+    case "active":
+      if (heroActive.includes("retinoid")) return "Renew and resurface";
+      if (heroActive.includes("acid") || heroActive.includes("exfoliating")) return "Exfoliate and refine";
+      if (heroActive.includes("peroxide")) return "Target breakouts";
+      if (heroActive.includes("azelaic")) return "Calm and brighten";
+      return "Active treatment";
+    case "recovery":
+      return "Restore and strengthen";
+    case "maintenance":
+      return "Support and protect";
+    case "barrier-repair":
+      return "Heal barrier damage";
+    default:
+      return "Maintain routine";
+  }
+}
+
+/**
+ * Sprint 21: Explain why this specific day exists
+ */
+function getWhyThisDay(
+  dayType: DayType,
+  heroActive: IngredientFamily,
+  concern: ProtocolConcern,
+  dayNumber: number,
+  frequency: number
+): string {
+  switch (dayType) {
+    case "active":
+      return `Day ${dayNumber} applies ${heroActive.replace(/-/g, " ")} to directly address ${concern}. This is one of ${frequency} treatment days per week, spaced to allow recovery between applications.`;
+    case "recovery":
+      return `Day ${dayNumber} is a full recovery day. Your skin needs downtime after active treatment to rebuild and strengthen. Skipping recovery leads to barrier damage.`;
+    case "maintenance":
+      return `Day ${dayNumber} maintains progress without aggressive actives. Gentle support keeps skin stable between treatment days.`;
+    case "barrier-repair":
+      return `Day ${dayNumber} focuses exclusively on barrier repair. Your skin is compromised and needs gentle restoration before introducing actives.`;
+    default:
+      return `Day ${dayNumber} follows your standard routine.`;
+  }
+}
+
+/**
+ * Sprint 21: Get caution message for active days
+ */
+function getDayCaution(heroActive: IngredientFamily): string {
+  if (heroActive.includes("retinoid")) {
+    return "Do not layer with vitamin C or exfoliating acids tonight. Expect mild flaking days 2-4 after use. This is normal.";
+  }
+  if (heroActive.includes("exfoliating-acid")) {
+    return "Do not use retinoids or additional acids tonight. Over-exfoliation causes lasting barrier damage.";
+  }
+  if (heroActive.includes("benzoyl-peroxide")) {
+    return "Benzoyl peroxide bleaches fabric. Use white towels and pillowcases. Do not combine with retinoids tonight.";
+  }
+  if (heroActive.includes("azelaic")) {
+    return "May cause mild tingling on first use. This subsides with continued use. Avoid layering with strong acids.";
+  }
+  return "Follow application instructions carefully. Do not increase frequency without consulting a professional.";
+}
+
+/**
+ * Sprint 21: What user should notice from this day
+ */
+function getExpectedOutcome(
+  dayType: DayType,
+  heroActive: IngredientFamily,
+  concern: ProtocolConcern
+): string {
+  switch (dayType) {
+    case "active":
+      if (heroActive.includes("retinoid")) {
+        return "Skin may feel slightly tight or look pink. Mild flaking is expected 2-3 days later.";
+      }
+      if (heroActive.includes("exfoliating-acid")) {
+        return "Skin feels smooth immediately. Some redness may occur. Brightening visible within 3-5 days.";
+      }
+      if (heroActive.includes("peroxide")) {
+        return "Active breakouts dry out faster. New breakouts may surface (purging). Redness fades quickly.";
+      }
+      if (heroActive.includes("azelaic")) {
+        return "Redness calms within hours. Skin tone looks more even. Dark spots begin fading gradually.";
+      }
+      return "Active ingredient working on target concern.";
+    case "recovery":
+      return "Skin feels hydrated and calm. Any irritation from treatment day subsides. Barrier strengthens.";
+    case "maintenance":
+      return "Skin stays balanced and comfortable. Progress maintained without additional stress.";
+    case "barrier-repair":
+      return "Tightness and sensitivity reduce. Skin feels softer and more resilient day by day.";
+    default:
+      return "Routine maintains current skin state.";
   }
 }
