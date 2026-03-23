@@ -31,11 +31,6 @@ export function DevPanel() {
 
   if (!isDevMode) return null;
 
-  const handleAccessChange = (state: AccessState) => {
-    setAccessState(state);
-    window.location.reload();
-  };
-
   const clearLocalStorage = () => {
     localStorage.clear();
     alert("localStorage cleared!");
@@ -90,49 +85,6 @@ export function DevPanel() {
               </select>
             </div>
 
-            {/* Access State */}
-            <div className="space-y-2">
-              <div className="text-xs text-muted uppercase tracking-wider font-semibold flex items-center gap-1">
-                <span className="material-symbols-outlined text-xs">badge</span>
-                Access State
-              </div>
-              <div className="space-y-1.5">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="access-state"
-                    value="guest"
-                    checked={accessState === "guest"}
-                    onChange={() => handleAccessChange("guest")}
-                    className="accent-primary"
-                  />
-                  <span className="text-xs text-foreground">Guest</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="access-state"
-                    value="member"
-                    checked={accessState === "member"}
-                    onChange={() => handleAccessChange("member")}
-                    className="accent-primary"
-                  />
-                  <span className="text-xs text-foreground">Member</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="access-state"
-                    value="pro"
-                    checked={accessState === "pro"}
-                    onChange={() => handleAccessChange("pro")}
-                    className="accent-primary"
-                  />
-                  <span className="text-xs text-foreground">Pro</span>
-                </label>
-              </div>
-            </div>
-
             {/* Dev Tools */}
             <div className="space-y-2">
               <div className="text-xs text-muted uppercase tracking-wider font-semibold flex items-center gap-1">
@@ -167,10 +119,6 @@ export function DevPanel() {
             {/* Status */}
             <div className="pt-3 border-t border-outline-variant">
               <div className="text-[10px] text-muted space-y-1">
-                <div className="flex justify-between">
-                  <span>Access:</span>
-                  <span className="text-primary font-mono">{accessState}</span>
-                </div>
                 <div className="flex justify-between">
                   <span>Path:</span>
                   <span className="text-primary font-mono truncate max-w-[120px]">{pathname}</span>

@@ -18,10 +18,9 @@ import {
 
 interface ConsoleIntelligenceCardProps {
   result: AnalysisResult;
-  tier: "guest" | "member" | "pro";
 }
 
-export function ConsoleIntelligenceCard({ result, tier }: ConsoleIntelligenceCardProps) {
+export function ConsoleIntelligenceCard({ result }: ConsoleIntelligenceCardProps) {
   const [intelligence, setIntelligence] = useState<ConsoleIntelligence | null>(null);
 
   useEffect(() => {
@@ -34,30 +33,7 @@ export function ConsoleIntelligenceCard({ result, tier }: ConsoleIntelligenceCar
     return null;
   }
 
-  // Guest: simplified guidance
-  if (tier === "guest") {
-    return (
-      <div className="clinical-card bg-primary/5 border-primary/30 space-y-4">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-light text-foreground">What to do next</h2>
-          <div className="h-px bg-primary/20" />
-        </div>
-        <div className="space-y-3">
-          <p className="text-base text-foreground leading-relaxed">
-            {intelligence.nextAction}
-          </p>
-          <p className="text-sm text-muted leading-relaxed">{intelligence.context}</p>
-        </div>
-        <div className="pt-4 border-t border-primary/20">
-          <p className="text-xs text-muted">
-            Create an account to unlock adherence tracking, trend analysis, and intelligent progress guidance.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Member/Pro: full intelligence display
+  // Full intelligence display
   const priorityColor = {
     critical: "border-red-600/50 bg-red-600/5",
     high: "border-yellow-600/50 bg-yellow-600/5",
@@ -97,35 +73,24 @@ export function ConsoleIntelligenceCard({ result, tier }: ConsoleIntelligenceCar
         <p className="text-sm text-muted leading-relaxed">{intelligence.context}</p>
       </div>
 
-      {/* Signals Grid - Pro only */}
-      {tier === "pro" && (
-        <div className="pt-4 border-t border-primary/20 grid grid-cols-3 gap-4">
-          <SignalIndicator
-            label="Adherence"
-            signal={intelligence.adherenceSignal}
-            reason={intelligence.adherenceReason}
-          />
-          <SignalIndicator
-            label="Trend"
-            signal={intelligence.trendDirection}
-            reason={intelligence.trendReason}
-          />
-          <SignalIndicator
-            label="Concern"
-            signal={intelligence.concernProgression}
-            reason={intelligence.concernReason}
-          />
-        </div>
-      )}
-
-      {/* Member upgrade hint */}
-      {tier === "member" && (
-        <div className="pt-4 border-t border-primary/20">
-          <p className="text-xs text-muted">
-            Upgrade to Pro to see detailed signal analysis (adherence pattern, trend direction, concern progression).
-          </p>
-        </div>
-      )}
+      {/* Signals Grid */}
+      <div className="pt-4 border-t border-primary/20 grid grid-cols-3 gap-4">
+        <SignalIndicator
+          label="Adherence"
+          signal={intelligence.adherenceSignal}
+          reason={intelligence.adherenceReason}
+        />
+        <SignalIndicator
+          label="Trend"
+          signal={intelligence.trendDirection}
+          reason={intelligence.trendReason}
+        />
+        <SignalIndicator
+          label="Concern"
+          signal={intelligence.concernProgression}
+          reason={intelligence.concernReason}
+        />
+      </div>
     </div>
   );
 }

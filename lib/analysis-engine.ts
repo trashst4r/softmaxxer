@@ -5,6 +5,7 @@ import { deriveProfile, generateProfileSummary } from "./profile";
 import { rankConcerns, determineBarrierRisk, generateConcernClusters } from "./concerns";
 import { generateRegimen } from "./regimen";
 import { profileToScores } from "./scoring/profileToScores";
+import { generateWeeklyProtocol } from "./protocol/weekly-protocol";
 
 /**
  * Sprint D5: Unified analysis using SkinProfile as single source of truth
@@ -32,6 +33,9 @@ export function runAnalysisFromProfile(
   // Generate dynamic routines from scores
   const { am_routine, pm_routine } = generateRegimen(scores);
 
+  // Generate weekly protocol (Sprint 20)
+  const weekly_protocol = generateWeeklyProtocol(profile);
+
   // Generate next steps and observations
   const next_tests = generateNextTests(scores, profile_label, answers);
 
@@ -56,6 +60,9 @@ export function runAnalysisFromProfile(
     // Routines
     am_routine,
     pm_routine,
+
+    // Weekly Protocol (Sprint 20)
+    weekly_protocol,
 
     // Guidance
     next_tests,

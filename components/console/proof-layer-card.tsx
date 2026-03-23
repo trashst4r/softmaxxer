@@ -18,10 +18,9 @@ import type { SkinScores } from "@/types/analysis";
 
 interface ProofLayerCardProps {
   currentScores: SkinScores;
-  tier: "guest" | "member" | "pro";
 }
 
-export function ProofLayerCard({ currentScores, tier }: ProofLayerCardProps) {
+export function ProofLayerCard({ currentScores }: ProofLayerCardProps) {
   const [proof, setProof] = useState<ProofAnalysis | null>(null);
 
   useEffect(() => {
@@ -52,29 +51,7 @@ export function ProofLayerCard({ currentScores, tier }: ProofLayerCardProps) {
     );
   }
 
-  // Guest tier: limited proof surface
-  if (tier === "guest") {
-    return (
-      <div className="clinical-card bg-muted/5 border-muted/20 space-y-4">
-        <div className="space-y-2">
-          <h2 className="text-xl font-light text-foreground">Progress Update</h2>
-          <div className="h-px bg-muted/20" />
-        </div>
-        <div className="space-y-3">
-          <p className="text-sm text-foreground leading-relaxed">
-            {getGuestSummary(proof.changes)}
-          </p>
-        </div>
-        <div className="pt-3 border-t border-muted/20">
-          <p className="text-xs text-muted">
-            Create an account to unlock full proof layer with detailed change analysis and action guidance.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Member/Pro: full proof surface
+  // Full proof surface
   const stateConfig = getStateConfig(proof.state);
 
   return (
@@ -95,7 +72,7 @@ export function ProofLayerCard({ currentScores, tier }: ProofLayerCardProps) {
         <div className="text-xs uppercase tracking-wider text-muted">What Changed</div>
         <div className="grid grid-cols-3 gap-3">
           {proof.changes.map((change) => (
-            <DimensionChangeIndicator key={change.dimension} change={change} showDelta={tier === "pro"} />
+            <DimensionChangeIndicator key={change.dimension} change={change} showDelta={true} />
           ))}
         </div>
       </div>
@@ -111,15 +88,6 @@ export function ProofLayerCard({ currentScores, tier }: ProofLayerCardProps) {
         <div className="text-xs uppercase tracking-wider text-muted">Continue or Adjust</div>
         <p className="text-sm text-foreground leading-relaxed">{proof.actionGuidance}</p>
       </div>
-
-      {/* Member upgrade hint */}
-      {tier === "member" && (
-        <div className="pt-3 border-t border-primary/20">
-          <p className="text-xs text-muted">
-            Upgrade to Pro to see raw score deltas and deeper causal interpretation.
-          </p>
-        </div>
-      )}
     </div>
   );
 }

@@ -76,6 +76,9 @@ export interface AnalysisResult {
   am_routine: RoutineStep[];
   pm_routine: RoutineStep[];
 
+  // Weekly Protocol (Sprint 20)
+  weekly_protocol?: import("@/lib/protocol/protocol-types").WeeklyProtocol;
+
   // Guidance
   next_tests: string[];
 }

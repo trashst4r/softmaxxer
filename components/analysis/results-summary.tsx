@@ -111,6 +111,7 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
                     </li>
                   ))}
               </ul>
+            </div>
 
             <div className="space-y-3">
               <p className="clinical-label">Key focus areas</p>
@@ -124,56 +125,51 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
                     </li>
                   ))}
               </ul>
+            </div>
           </div>
         </div>
       )}
 
       {/* Pro Intelligence - Condensed for premium feel */}
-        <div className="bg-surface-container-low rounded-xl p-6 space-y-6">
+      <div className="bg-surface-container-low rounded-xl p-6 space-y-6">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-light text-on-surface">Why this works</h3>
+            <span className="text-xs text-on-surface-variant uppercase tracking-wider">Pro</span>
+          </div>
+          <p className="text-sm text-on-surface-variant max-w-2xl">
+            Your {result.profile_label} profile requires a specific approach. Here&apos;s the strategy.
+          </p>
+        </div>
+
+        <div className="space-y-4">
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-light text-on-surface">Why this works</h3>
-              <span className="text-xs text-on-surface-variant uppercase tracking-wider">Pro</span>
-            </div>
-            <p className="text-sm text-on-surface-variant max-w-2xl">
-              Your {result.profile_label} profile requires a specific approach. Here&apos;s the strategy.
+            <h4 className="text-sm font-medium text-on-surface">Protocol logic</h4>
+            <p className="text-sm text-on-surface-variant leading-relaxed">
+              The regimen addresses your primary concerns while maintaining barrier integrity.
+              Each active is timed to your barrier health and sensitivity level to prevent irritation.
             </p>
           </div>
 
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <h4 className="text-sm font-medium text-on-surface">Protocol logic</h4>
-              <p className="text-sm text-on-surface-variant leading-relaxed">
-                The regimen addresses your primary concerns while maintaining barrier integrity.
-                Each active is timed to your barrier health and sensitivity level to prevent irritation.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h4 className="text-sm font-medium text-on-surface">What to expect</h4>
-              <ul className="text-sm text-on-surface-variant space-y-1">
-                <li className="flex gap-2">
-                  <span className="text-primary">•</span>
-                  <span>Barrier stabilization: 2-3 weeks</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-primary">•</span>
-                  <span>Active introduction: After barrier recovery</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-primary">•</span>
-                  <span>Visible changes: 6-8 weeks with consistent use</span>
-                </li>
-              </ul>
-            </div>
+          <div className="space-y-2">
+            <h4 className="text-sm font-medium text-on-surface">What to expect</h4>
+            <ul className="text-sm text-on-surface-variant space-y-1">
+              <li className="flex gap-2">
+                <span className="text-primary">•</span>
+                <span>Barrier stabilization: 2-3 weeks</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-primary">•</span>
+                <span>Active introduction: After barrier recovery</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-primary">•</span>
+                <span>Visible changes: 6-8 weeks with consistent use</span>
+              </li>
+            </ul>
           </div>
         </div>
-      )}
-
-      {/* Conversion CTAs - Restrained */}
-      )}
-
-      )}
+      </div>
     </div>
   );
 }
