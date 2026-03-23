@@ -2,12 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useAccessState } from "@/lib/access-state";
 import { getDevTierOverride, setDevTierOverride } from "@/lib/dev-session";
-import type { AccessState } from "@/lib/access-state";
 
 export function DevPanel() {
-  const [accessState] = useAccessState();
   const [devOverride, setDevOverrideState] = useState<AccessState | null>(() => {
     // Initialize state from localStorage on mount
     if (typeof window !== "undefined") {

@@ -5,8 +5,6 @@ import type { SkinProfile } from "@/lib/scoring/types";
 import { ResultInsightList } from "./result-insight-list";
 import { ResultScoreCard } from "./result-score-card";
 import { ResultRoutinePreview } from "./result-routine-preview";
-import { useAccessState } from "@/lib/access-state";
-import { AccessPermissions } from "@/lib/access-state";
 import Link from "next/link";
 
 interface ResultsSummaryProps {
@@ -14,7 +12,6 @@ interface ResultsSummaryProps {
 }
 
 export function ResultsSummary({ result }: ResultsSummaryProps) {
-  const [accessState] = useAccessState();
 
   // Load SkinProfile from sessionStorage (computed during check-in)
   const getSkinProfile = (): SkinProfile | null => {
@@ -80,7 +77,7 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
         {skinProfile && (
           <ResultScoreCard
             profile={skinProfile}
-            showDetails={accessState !== "guest"}
+            showDetails={true}
           />
         )}
       </div>
@@ -106,7 +103,7 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
               <p className="clinical-label">Primary concerns</p>
               <ul className="space-y-2">
                 {result.ranked_concerns
-                  .slice(0, accessState === "guest" ? 2 : 4)
+                  .slice(0, 4)
                   .map((concern, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm">
                       <span className="text-primary mt-0.5">•</span>
@@ -114,18 +111,12 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
                     </li>
                   ))}
               </ul>
-              {accessState === "guest" && result.ranked_concerns.length > 2 && (
-                <p className="text-xs text-on-surface-variant pt-2">
-                  + {result.ranked_concerns.length - 2} more · Create account to see all
-                </p>
-              )}
-            </div>
 
             <div className="space-y-3">
               <p className="clinical-label">Key focus areas</p>
               <ul className="space-y-2">
                 {result.next_tests
-                  .slice(0, accessState === "guest" ? 2 : 3)
+                  .slice(0, 3)
                   .map((test, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-on-surface-variant">
                       <span className="text-primary mt-0.5">•</span>
@@ -133,18 +124,11 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
                     </li>
                   ))}
               </ul>
-              {accessState === "guest" && result.next_tests.length > 2 && (
-                <p className="text-xs text-on-surface-variant pt-2">
-                  + {result.next_tests.length - 2} more observations
-                </p>
-              )}
-            </div>
           </div>
         </div>
       )}
 
       {/* Pro Intelligence - Condensed for premium feel */}
-      {AccessPermissions.canSeeDeepAnalysis(accessState) && (
         <div className="bg-surface-container-low rounded-xl p-6 space-y-6">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -187,28 +171,8 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
       )}
 
       {/* Conversion CTAs - Restrained */}
-      {accessState === "guest" && (
-        <div className="bg-surface-container-low rounded-xl p-8 text-center space-y-4">
-          <h3 className="text-xl font-light text-on-surface">See your full product stack</h3>
-          <p className="text-sm text-on-surface-variant max-w-md mx-auto">
-            Product recommendations with price comparisons and purchase links
-          </p>
-          <button className="bg-primary text-on-primary px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
-            Create free account
-          </button>
-        </div>
       )}
 
-      {accessState === "member" && (
-        <div className="bg-surface-container-low rounded-xl p-8 text-center space-y-4">
-          <h3 className="text-xl font-light text-on-surface">Unlock deeper insights</h3>
-          <p className="text-sm text-on-surface-variant max-w-md mx-auto">
-            Extended protocol explanations and optimization strategies
-          </p>
-          <button className="bg-primary text-on-primary px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
-            Upgrade to Pro
-          </button>
-        </div>
       )}
     </div>
   );

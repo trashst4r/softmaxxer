@@ -2,17 +2,14 @@
 
 import { useState } from "react";
 import type { RoutineStep } from "@/types/analysis";
-import type { AccessState } from "@/lib/access-state";
-import { AccessPermissions } from "@/lib/access-state";
 import { getRoleLabel, getRoleColor } from "@/lib/product-logic";
 
 interface RoutineCardProps {
   title: "AM Routine" | "PM Routine";
   steps: RoutineStep[];
-  accessState: AccessState;
 }
 
-export function RoutineCard({ title, steps, accessState }: RoutineCardProps) {
+export function RoutineCard({ title, steps }: RoutineCardProps) {
   const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
 
   const toggleStep = (stepId: string) => {
@@ -57,7 +54,7 @@ export function RoutineCard({ title, steps, accessState }: RoutineCardProps) {
               {isExpanded && hasProducts && (
                 <div className="ml-10 space-y-4 pt-2 border-l border-primary/20 pl-4">
                   {routineStep.products!.map((productSuggestion, pIndex) => {
-                    const canSeeFullProducts = AccessPermissions.canSeeFullProducts(accessState);
+                    const canSeeFullProducts = true;
                     const actualProducts = productSuggestion.products || [];
                     const displayProducts = canSeeFullProducts
                       ? actualProducts

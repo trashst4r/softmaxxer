@@ -1,10 +1,8 @@
 "use client";
 
-import { useAccessState } from "@/lib/access-state";
 import { useDevMode } from "./developer-mode-toggle";
 import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
-import type { AccessState } from "@/lib/access-state";
 
 const DEV_PAGES = [
   { path: "/", label: "Home" },
@@ -25,7 +23,7 @@ const DEV_PAGES = [
 ];
 
 export function DevPanel() {
-  const [accessState, setAccessState] = useAccessState();
+  
   const isDevMode = useDevMode();
   const router = useRouter();
   const pathname = usePathname();

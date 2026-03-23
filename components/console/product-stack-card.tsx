@@ -1,18 +1,13 @@
 "use client";
 
 import type { AnalysisResult } from "@/types/analysis";
-import type { AccessState } from "@/lib/access-state";
-import { AccessPermissions } from "@/lib/access-state";
 import { getRoleLabel, getRoleColor } from "@/lib/product-logic";
 
 interface ProductStackCardProps {
   result: AnalysisResult;
-  accessState: AccessState;
 }
 
-export function ProductStackCard({ result, accessState }: ProductStackCardProps) {
-  const canSeeFullProducts = AccessPermissions.canSeeFullProducts(accessState);
-
+export function ProductStackCard({ result }: ProductStackCardProps) {
   // Collect all products from routine
   const allProductSuggestions = [
     ...result.am_routine.flatMap((step) => step.products || []),
@@ -27,7 +22,7 @@ export function ProductStackCard({ result, accessState }: ProductStackCardProps)
       category: ps.category,
       product: ps.products![0], // First product = recommended
     }))
-    .slice(0, canSeeFullProducts ? 8 : 3); // Guest: 3 products, Member/Pro: 8 products
+    .slice(0, 8); // Show up to 8 products
 
   return (
     <div className="clinical-card space-y-6">
@@ -90,30 +85,11 @@ export function ProductStackCard({ result, accessState }: ProductStackCardProps)
         ))}
       </div>
 
-      {/* Guest/Member Upgrade CTA */}
-      {!canSeeFullProducts && (
-        <div className="pt-3 border-t border-primary/30 bg-primary/5 -mx-6 -mb-6 px-6 py-4 rounded-b-sm">
-          <div className="text-center space-y-2">
-            <div className="text-sm font-medium text-foreground">
-              Your protocol is incomplete
-            </div>
-            <p className="text-xs text-muted">
-              Unlock full product stack with Budget, Sensitive-Safe, and Maximum Strength options to properly treat your concerns.
-            </p>
-            <button className="text-xs text-primary hover:text-primary/80 font-medium uppercase tracking-wider">
-              Unlock Full Stack →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {canSeeFullProducts && (
-        <div className="pt-3 border-t border-border">
-          <button className="text-xs text-primary hover:text-primary/80 uppercase tracking-wider font-medium">
-            View Full Regimen Details →
-          </button>
-        </div>
-      )}
+      <div className="pt-3 border-t border-border">
+        <button className="text-xs text-primary hover:text-primary/80 uppercase tracking-wider font-medium">
+          View Full Regimen Details →
+        </button>
+      </div>
     </div>
   );
 }

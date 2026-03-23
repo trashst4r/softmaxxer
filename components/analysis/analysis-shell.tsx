@@ -8,8 +8,6 @@ import { QuestionStep } from "./question-step";
 import { TextInputStep } from "./text-input-step";
 import { runAnalysis } from "@/lib/analysis-engine";
 import { useDevMode } from "@/components/developer-mode-toggle";
-import { useAccessState } from "@/lib/access-state";
-import { TierContextBanner } from "@/components/shared/tier-context-banner";
 import { setActiveRegimen } from "@/lib/app-state";
 import type {
   AnalysisAnswers,
@@ -28,7 +26,6 @@ const TOTAL_STEPS = 11;
 export function AnalysisShell() {
   const router = useRouter();
   const isDevMode = useDevMode();
-  const [accessState] = useAccessState();
   const [currentStep, setCurrentStep] = useState(1);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [answers, setAnswers] = useState<Partial<AnalysisAnswers>>({
@@ -135,10 +132,6 @@ export function AnalysisShell() {
           totalSteps={TOTAL_STEPS}
           title={getStepTitle(currentStep)}
         />
-
-        {currentStep === 1 && (
-          <TierContextBanner tier={accessState} context="analysis" />
-        )}
 
         <div>
           {currentStep === 1 && (
