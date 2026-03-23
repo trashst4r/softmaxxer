@@ -42,6 +42,36 @@ export function WeeklyProtocolView({ protocol }: WeeklyProtocolViewProps) {
     }
   };
 
+  // Sprint 23: Risk level styling
+  const getRiskBadgeColor = (risk: string) => {
+    switch (risk) {
+      case "low":
+        return "bg-green-500/20 text-green-700 dark:text-green-400";
+      case "moderate":
+        return "bg-blue-500/20 text-blue-700 dark:text-blue-400";
+      case "elevated":
+        return "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400";
+      case "high":
+        return "bg-error/20 text-error";
+      default:
+        return "bg-surface-container text-on-surface-variant";
+    }
+  };
+
+  const getRiskIcon = (risk: string) => {
+    switch (risk) {
+      case "high":
+        return "⚠";
+      case "elevated":
+        return "⚡";
+      case "moderate":
+        return "○";
+      case "low":
+      default:
+        return "✓";
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* Protocol Header */}
@@ -143,13 +173,20 @@ export function WeeklyProtocolView({ protocol }: WeeklyProtocolViewProps) {
                       {day.dayNumber}
                     </div>
                     <div className="space-y-1">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 flex-wrap">
                         <h3 className="text-lg font-medium text-on-surface">
                           {day.purpose}
                         </h3>
                         <span className={`text-xs uppercase tracking-wider px-2 py-1 rounded-full ${badgeColor}`}>
                           {day.dayType}
                         </span>
+                        {/* Sprint 23: Risk indicator */}
+                        {day.riskLevel !== "low" && (
+                          <span className={`text-xs uppercase tracking-wider px-2 py-1 rounded-full flex items-center gap-1 ${getRiskBadgeColor(day.riskLevel)}`}>
+                            <span>{getRiskIcon(day.riskLevel)}</span>
+                            {day.riskLevel} risk
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-on-surface-variant">
                         {day.label}
@@ -183,6 +220,29 @@ export function WeeklyProtocolView({ protocol }: WeeklyProtocolViewProps) {
                             {day.whyThisDay}
                           </p>
                         </div>
+
+                        {/* Sprint 23: Risk reason */}
+                        {day.riskReason && day.riskLevel !== "low" && (
+                          <div className={`border rounded-lg p-4 space-y-2 ${
+                            day.riskLevel === "high"
+                              ? "bg-error/10 border-error/20"
+                              : day.riskLevel === "elevated"
+                              ? "bg-yellow-500/10 border-yellow-500/20"
+                              : "bg-blue-500/10 border-blue-500/20"
+                          }`}>
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg">{getRiskIcon(day.riskLevel)}</span>
+                              <p className={`clinical-label ${
+                                day.riskLevel === "high" ? "text-error" : "text-on-surface"
+                              }`}>
+                                Risk Assessment
+                              </p>
+                            </div>
+                            <p className="text-sm text-on-surface leading-relaxed">
+                              {day.riskReason}
+                            </p>
+                          </div>
+                        )}
 
                         {/* Caution */}
                         {day.caution && (

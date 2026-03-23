@@ -75,6 +75,9 @@ export interface ProtocolDay {
   whyThisDay: string; // User-facing explanation of day logic
   caution?: string; // Warnings for active days
   expectedOutcome: string; // What user should notice
+  // Sprint 23: Risk signaling
+  riskLevel: "low" | "moderate" | "elevated" | "high";
+  riskReason?: string; // Why this risk level
 }
 
 /**

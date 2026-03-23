@@ -40,9 +40,18 @@ export function ResultsSummary({ result }: ResultsSummaryProps) {
       {/* Hero Summary - Immediate confidence and clarity */}
       <div className="space-y-6">
         <div className="space-y-3">
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight text-on-surface">
-            Your routine is ready
-          </h1>
+          <div className="flex items-baseline gap-4">
+            <h1 className="text-4xl md:text-5xl font-light tracking-tight text-on-surface">
+              Your routine is ready
+            </h1>
+            {/* Sprint 23: Confidence indicator */}
+            <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full">
+              <div className="w-2 h-2 bg-primary rounded-full" />
+              <span className="text-xs text-primary font-medium">
+                {result.confidence_label}
+              </span>
+            </div>
+          </div>
           <p className="text-lg text-on-surface-variant max-w-2xl">
             {getSkinSummary()}
           </p>

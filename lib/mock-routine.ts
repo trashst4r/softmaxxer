@@ -294,6 +294,7 @@ export function generateMockRoutine(profile: SkinProfile): AnalysisResult {
     // Scoring
     scores,
     confidence_score: 85,
+    confidence_label: "High confidence profile",
 
     // Concerns
     ranked_concerns,

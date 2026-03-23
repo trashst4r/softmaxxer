@@ -349,6 +349,8 @@ export function generateWeeklyProtocol(profile: SkinProfile): WeeklyProtocol {
     const am = buildBaseAMRoutine(targets, hero);
     const pm = buildPMRoutine(dayType, targets, hero, support);
 
+    const { riskLevel, riskReason } = calculateDayRisk(dayType, hero, targets);
+
     days.push({
       dayNumber: i as 1 | 2 | 3 | 4 | 5 | 6 | 7,
       dayType,
@@ -361,6 +363,9 @@ export function generateWeeklyProtocol(profile: SkinProfile): WeeklyProtocol {
       whyThisDay: getWhyThisDay(dayType, hero, targets.primaryConcern, i, heroFrequency),
       caution: dayType === "active" ? getDayCaution(hero) : undefined,
       expectedOutcome: getExpectedOutcome(dayType, hero, targets.primaryConcern),
+      // Sprint 23: Risk signaling
+      riskLevel,
+      riskReason,
     });
   }
 
@@ -625,4 +630,80 @@ function getExpectedOutcome(
     default:
       return "Routine maintains current skin state.";
   }
+}
+
+/**
+ * Sprint 23: Calculate risk level for protocol day
+ */
+function calculateDayRisk(
+  dayType: DayType,
+  heroActive: IngredientFamily,
+  targets: ProtocolTargets
+): { riskLevel: "low" | "moderate" | "elevated" | "high"; riskReason?: string } {
+  // Recovery and maintenance days are low risk
+  if (dayType === "recovery" || dayType === "maintenance") {
+    return { riskLevel: "low" };
+  }
+
+  // Barrier repair days
+  if (dayType === "barrier-repair") {
+    return {
+      riskLevel: "low",
+      riskReason: "Gentle barrier support only",
+    };
+  }
+
+  // Active days - calculate based on factors
+  let risk: "low" | "moderate" | "elevated" | "high" = "low";
+  const reasons: string[] = [];
+
+  // Start with baseline risk for active days
+  if (dayType === "active") {
+    risk = "moderate";
+  }
+
+  // Barrier state affects risk
+  if (targets.barrierState === "compromised") {
+    risk = "high";
+    reasons.push("Compromised barrier increases irritation risk");
+  } else if (targets.barrierState === "sensitive") {
+    if (risk === "moderate") risk = "elevated";
+    reasons.push("Sensitive barrier requires careful monitoring");
+  }
+
+  // SPF reliability affects risk for photosensitizing actives
+  if (requiresSpfForIngredient(heroActive) && targets.spfReliability === "poor") {
+    risk = "high";
+    reasons.push("Photosensitizing active without reliable SPF");
+  } else if (requiresSpfForIngredient(heroActive) && targets.spfReliability === "inconsistent") {
+    if (risk === "moderate") risk = "elevated";
+    reasons.push("Inconsistent SPF use with photosensitizing active");
+  }
+
+  // Strong actives have inherently higher baseline risk
+  const strongActives: IngredientFamily[] = ["adapalene-retinoid", "exfoliating-acid"];
+  if (strongActives.includes(heroActive)) {
+    if (risk === "moderate") risk = "elevated";
+    if (targets.toleranceTier === "beginner") {
+      reasons.push("Strong active with beginner tolerance");
+    }
+  }
+
+  // Beginner tolerance with any active
+  if (targets.toleranceTier === "beginner" && dayType === "active") {
+    if (risk === "moderate" && reasons.length === 0) {
+      reasons.push("Building tolerance to actives");
+    }
+  }
+
+  // Sensitive skin flag
+  if (targets.sensitiveSkin && dayType === "active") {
+    if (risk === "moderate") risk = "elevated";
+    reasons.push("Sensitive skin requires close monitoring");
+  }
+
+  return {
+    riskLevel: risk,
+    riskReason: reasons.length > 0 ? reasons.join(". ") : undefined,
+  };
 }

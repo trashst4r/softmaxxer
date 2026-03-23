@@ -23,6 +23,12 @@ export interface AnalysisAnswers {
 
 export type BarrierRisk = "Low" | "Moderate" | "Elevated";
 
+// Sprint 23: Profile maturity levels
+export type ProfileMaturity = "Initial Profile" | "Developing Profile" | "Established Profile";
+
+// Sprint 23: Risk levels for protocol days
+export type RiskLevel = "low" | "moderate" | "elevated" | "high";
+
 // Scoring system
 export interface SkinScores {
   acne_severity: number; // 0-100
@@ -60,12 +66,13 @@ export interface RankedConcern {
 export interface AnalysisResult {
   // Core profile
   profile_label: string;
-  profile_maturity: "Initial Profile";
+  profile_maturity: ProfileMaturity;
   summary: string;
 
   // Scoring
   scores: SkinScores;
   confidence_score: number;
+  confidence_label: string; // Sprint 23: Human-readable confidence
 
   // Concerns
   ranked_concerns: RankedConcern[];

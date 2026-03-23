@@ -95,6 +95,7 @@ export function convertToAnalysisResult(routine: Routine, profile: SkinProfile):
     // Scoring
     scores,
     confidence_score: 85,
+    confidence_label: "High confidence profile",
 
     // Concerns
     ranked_concerns,

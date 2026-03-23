@@ -41,6 +41,7 @@ export function runAnalysisFromProfile(
 
   // Calculate confidence score
   const confidence_score = calculateConfidence(answers, scores);
+  const confidence_label = getConfidenceLabel(confidence_score);
 
   return {
     // Core profile
@@ -51,6 +52,7 @@ export function runAnalysisFromProfile(
     // Scoring
     scores,
     confidence_score,
+    confidence_label,
 
     // Concerns
     ranked_concerns,
@@ -99,6 +101,7 @@ export function runAnalysis(answers: AnalysisAnswers): AnalysisResult {
 
   // Step 6: Calculate confidence score
   const confidence_score = calculateConfidence(answers, scores);
+  const confidence_label = getConfidenceLabel(confidence_score);
 
   return {
     // Core profile
@@ -109,6 +112,7 @@ export function runAnalysis(answers: AnalysisAnswers): AnalysisResult {
     // Scoring
     scores,
     confidence_score,
+    confidence_label,
 
     // Concerns
     ranked_concerns,
@@ -211,4 +215,14 @@ function calculateConfidence(answers: AnalysisAnswers, scores: SkinScores): numb
   }
 
   return Math.min(95, Math.max(60, Math.round(confidence)));
+}
+
+/**
+ * Sprint 23: Generate human-readable confidence label
+ */
+function getConfidenceLabel(confidence: number): string {
+  if (confidence >= 85) return "High confidence profile";
+  if (confidence >= 75) return "Good confidence profile";
+  if (confidence >= 65) return "Moderate confidence profile";
+  return "Initial profile - accuracy will improve with use";
 }
