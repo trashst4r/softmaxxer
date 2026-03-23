@@ -53,16 +53,6 @@ export function TopNav() {
               Check-In
             </Link>
             <Link
-              href="/results"
-              className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-colors ${
-                isActive("/results")
-                  ? "text-primary"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Results
-            </Link>
-            <Link
               href="/protocol"
               className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-colors ${
                 isActive("/protocol")
@@ -131,17 +121,6 @@ export function TopNav() {
               }`}
             >
               Check-In
-            </Link>
-            <Link
-              href="/results"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`block px-3 py-2 text-sm font-medium transition-colors ${
-                isActive("/results")
-                  ? "text-primary"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Results
             </Link>
             <Link
               href="/protocol"
