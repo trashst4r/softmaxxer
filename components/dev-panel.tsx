@@ -11,7 +11,6 @@ const DEV_PAGES = [
   { path: "/results", label: "Results" },
   { path: "/protocol", label: "Protocol" },
   { path: "/how-it-works", label: "How It Works" },
-  { path: "/preferences", label: "Preferences" },
   { path: "/console", label: "Console" },
   { path: "/media-kit", label: "Media Kit" },
   { path: "/dev", label: "Dev Index" },

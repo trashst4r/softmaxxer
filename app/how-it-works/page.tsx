@@ -68,36 +68,37 @@ export default function HowItWorksPage() {
           <div className="flex items-center gap-4 mb-4">
             <span className="font-headline text-4xl font-bold text-primary">02</span>
             <h2 className="font-headline text-2xl font-bold text-on-surface">
-              Build Your Protocol
+              Receive Your Protocol
             </h2>
           </div>
           <p className="text-muted leading-relaxed">
-            Choose specific products for each routine step from our curated catalog. Products are ranked
-            by skin target match, tier preference, and ingredient compatibility.
+            Your weekly protocol is generated algorithmically based on your skin profile. The system
+            determines active ingredients, frequency, recovery spacing, and safety constraints automatically.
           </p>
           <p className="text-muted leading-relaxed">
-            Optional refinement layer lets you specify preferences for:
+            Each protocol includes:
           </p>
           <ul className="space-y-2 text-muted ml-6">
             <li className="flex items-start gap-3">
               <span className="text-primary mt-1">•</span>
-              <span>Age-optimized formulas (prevention vs. treatment)</span>
+              <span>7-day schedule with active treatment and recovery days</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-primary mt-1">•</span>
-              <span>Texture and finish (gel, cream, matte, dewy)</span>
+              <span>Day-by-day AM/PM routines with ingredient guidance</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-primary mt-1">•</span>
-              <span>Budget tier (essential, balanced, premium)</span>
+              <span>Risk assessment and safety constraints for your profile</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-primary mt-1">•</span>
-              <span>Ingredient preferences and avoidances</span>
+              <span>Product search links for each ingredient family</span>
             </li>
           </ul>
           <p className="text-muted leading-relaxed mt-4">
-            Your selections are saved automatically and can be exported or shared.
+            Protocols are locked to ensure safety and efficacy. To change your protocol, retake the
+            check-in with updated answers.
           </p>
         </section>
 
