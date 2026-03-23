@@ -7,7 +7,8 @@
 
 import type { ProductSpec, SuitabilityMap } from "@/types/product";
 import type { SkinProfile } from "@/types/skin-profile";
-import type { RefinementPreferences } from "@/types/refinement";
+// Sprint 24: Refinement system removed
+type RefinementPreferences = any;
 
 export interface ProductScore {
   product: ProductSpec;

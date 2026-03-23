@@ -7,7 +7,9 @@
 
 import type { ProductSpec } from "@/types/product";
 import type { SkinProfile } from "@/types/skin-profile";
-import type { RefinementPreferences } from "@/types/refinement";
+
+// Sprint 24: Refinement system removed
+type RefinementPreferences = any;
 
 export interface EligibilityResult {
   eligible: boolean;
@@ -104,7 +106,7 @@ export function checkProductEligibility(
   // Sprint 19: HARD EXCLUSION 9: Ingredient avoidance
   if (refinement?.avoidIngredients && refinement.avoidIngredients.length > 0) {
     const productIngredients = product.ingredientNotes.join(" ").toLowerCase();
-    const avoidedIngredient = refinement.avoidIngredients.find((avoidIngredient) =>
+    const avoidedIngredient = refinement.avoidIngredients.find((avoidIngredient: string) =>
       productIngredients.includes(avoidIngredient.toLowerCase())
     );
     if (avoidedIngredient) {

@@ -7,9 +7,21 @@
 
 import type { SkinScores } from "@/types/analysis";
 import type { CatalogProduct, StepType } from "./types";
-import type { RefinementAnswers, ProductMatch } from "@/lib/refinement/types";
 import { getProductsByStepType } from "./catalog";
-import { calculateRefinementBonus, checkAvoidanceFilters } from "@/lib/refinement/scoring";
+
+// Sprint 24: Refinement system removed
+type RefinementAnswers = any;
+
+// Sprint 24: Local ProductMatch type definition
+export interface ProductMatch {
+  product: CatalogProduct;
+  matchReasons: string[];
+  refinementBonus: number;
+}
+
+// Sprint 24: Stub refinement functions
+const calculateRefinementBonus = (...args: any[]) => ({ bonus: 0, reasons: [] });
+const checkAvoidanceFilters = (...args: any[]) => null;
 
 /**
  * Map routine step IDs to product step types

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ProtocolEditorial } from "@/components/protocol/protocol-editorial";
 import { WeeklyProtocolView } from "@/components/protocol/weekly-protocol-view";
 import { getActiveRegimen } from "@/lib/app-state";
 import type { AnalysisResult } from "@/types/analysis";
@@ -49,34 +48,49 @@ export default function ProtocolPage() {
     );
   }
 
-  // Sprint 21: If weekly protocol exists, show new view
-  if (result.weekly_protocol) {
+  // Sprint 24: Always show protocol system (no manual builder)
+  if (!result.weekly_protocol) {
     return (
-      <div className="screen-container bg-surface">
-        <div className="screen-content px-6 py-12">
-          <div className="max-w-4xl mx-auto">
-            <WeeklyProtocolView protocol={result.weekly_protocol} />
-
-            {/* Footer Navigation */}
-            <div className="flex items-center justify-center gap-3 text-body text-sm text-muted pt-12 mt-12 border-t border-outline-variant">
-              <Link href="/dashboard" className="hover:text-on-surface transition-colors">
-                Back to Dashboard
-              </Link>
-              <span>·</span>
-              <Link href="/analysis" className="hover:text-on-surface transition-colors">
-                Retake Check-In
-              </Link>
-              <span>·</span>
-              <Link href="/results" className="hover:text-on-surface transition-colors">
-                View Analysis
-              </Link>
-            </div>
+      <div className="screen-container">
+        <div className="flex items-center justify-center flex-1 px-6">
+          <div className="text-center space-y-6 max-w-md">
+            <h1 className="text-headline text-2xl font-normal text-on-surface">
+              Protocol Generation In Progress
+            </h1>
+            <p className="text-body text-sm text-muted leading-relaxed">
+              Your protocol is being generated. Please retake check-in to generate weekly protocol.
+            </p>
+            <Link href="/analysis" className="clinical-button inline-block">
+              Retake Check-In
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 
-  // Fallback to legacy product selector
-  return <ProtocolEditorial />;
+  return (
+    <div className="screen-container bg-surface">
+      <div className="screen-content px-6 py-12">
+        <div className="max-w-4xl mx-auto">
+          <WeeklyProtocolView protocol={result.weekly_protocol} result={result} />
+
+          {/* Footer Navigation */}
+          <div className="flex items-center justify-center gap-3 text-body text-sm text-muted pt-12 mt-12 border-t border-outline-variant">
+            <Link href="/dashboard" className="hover:text-on-surface transition-colors">
+              Back to Dashboard
+            </Link>
+            <span>·</span>
+            <Link href="/analysis" className="hover:text-on-surface transition-colors">
+              Retake Check-In
+            </Link>
+            <span>·</span>
+            <Link href="/results" className="hover:text-on-surface transition-colors">
+              View Analysis
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

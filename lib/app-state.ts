@@ -6,7 +6,8 @@
 
 import type { AnalysisResult } from "@/types/analysis";
 import type { SkinProfile } from "@/types/skin-profile";
-import type { RefinementPreferences } from "@/types/refinement";
+// Sprint 24: Refinement system removed
+type RefinementPreferences = any;
 
 const STORAGE_KEYS = {
   activeProfile: "app_active_profile_v1",

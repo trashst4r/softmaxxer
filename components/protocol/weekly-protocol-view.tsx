@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import type { WeeklyProtocol } from "@/lib/protocol/protocol-types";
+import type { AnalysisResult } from "@/types/analysis";
 import { motion, AnimatePresence } from "framer-motion";
 import { getIngredientAction, getSearchUrl, getActionCTA } from "@/lib/ingredients/ingredient-actions";
 
 interface WeeklyProtocolViewProps {
   protocol: WeeklyProtocol;
+  result: AnalysisResult;
 }
 
-export function WeeklyProtocolView({ protocol }: WeeklyProtocolViewProps) {
+export function WeeklyProtocolView({ protocol, result }: WeeklyProtocolViewProps) {
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
 
   const getDayTypeColor = (dayType: string) => {
@@ -149,6 +151,70 @@ export function WeeklyProtocolView({ protocol }: WeeklyProtocolViewProps) {
             </ul>
           </div>
         )}
+
+        {/* Sprint 24: Profile → Protocol Mapping */}
+        <div className="bg-surface-container-low rounded-xl p-6 space-y-4">
+          <h3 className="text-lg font-light text-on-surface">Why This Protocol</h3>
+          <p className="text-sm text-on-surface-variant leading-relaxed">
+            This protocol is generated directly from your skin profile analysis. Here's how your inputs shaped these recommendations:
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6 pt-2">
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Primary Concern</p>
+                <p className="text-sm text-on-surface font-medium capitalize">
+                  {protocol.primaryConcern}
+                </p>
+                <p className="text-xs text-on-surface-variant">
+                  → Selected {protocol.heroActive.replace(/-/g, " ")} as primary treatment
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Tolerance Level</p>
+                <p className="text-sm text-on-surface font-medium capitalize">
+                  {protocol.toleranceTier}
+                </p>
+                <p className="text-xs text-on-surface-variant">
+                  → {protocol.summary.heroActiveFrequency}x per week frequency with {protocol.summary.keyPrinciples[1]?.toLowerCase() || "recovery spacing"}
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Barrier State</p>
+                <p className="text-sm text-on-surface font-medium capitalize">
+                  {protocol.barrierState}
+                </p>
+                <p className="text-xs text-on-surface-variant">
+                  → {protocol.barrierState === "compromised"
+                      ? "Gentle actives only until barrier recovers"
+                      : protocol.barrierState === "sensitive"
+                      ? "Reduced frequency to prevent irritation"
+                      : "Standard active frequency approved"}
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Confidence</p>
+                <p className="text-sm text-on-surface font-medium">
+                  {result.confidence_label}
+                </p>
+                <p className="text-xs text-on-surface-variant">
+                  → Protocol specificity: {result.confidence_score >= 85 ? "Very precise" : result.confidence_score >= 75 ? "Precise" : "General guidance"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-outline-variant">
+            <p className="text-xs text-on-surface-variant italic">
+              This protocol is generated algorithmically from your skin profile. It is not customizable to ensure safety and efficacy. To change your protocol, retake the check-in with updated answers.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Day-by-Day Protocol */}
