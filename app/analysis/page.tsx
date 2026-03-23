@@ -1,5 +1,5 @@
-import { CheckInShellV2 } from "@/components/analysis/check-in-shell-v2";
+import { CheckInShellV3 } from "@/components/analysis/check-in-shell-v3";
 
 export default function AnalysisPage() {
-  return <CheckInShellV2 />;
+  return <CheckInShellV3 />;
 }
